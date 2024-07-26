@@ -32,40 +32,6 @@ $(document).ready(function() {
     }
 
 
-    function confirmDelete(button) {
-        const id_kegiatan = button.id;
-        console.log(id_kegiatan);
-
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: 'Anda akan menghapus kegiatan ini.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, hapus',
-            cancelButtonText: 'Batal',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const row = button.closest('tr');
-
-                $.ajax({
-                    url: BASEURL + '/admin/ds',
-                    data: { id: id_kegiatan },
-                    method: 'post',
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log('success');
-                    }
-                });
-                row.remove();
-                Swal.fire(
-                    'Dihapus!',
-                    'Kegiatan telah dihapus.',
-                    'success'
-                );
-            }
-        });
-    }
-
     $('#dosenDropdown').on('change', function() {
         handleDosenChange($(this).val());
     });
