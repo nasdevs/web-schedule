@@ -1,0 +1,12 @@
+options -multiviews
+
+rewriteengine on
+rewritecond %{request_filename} !-d
+rewritecond %{request_filename} !-f
+rewriterule ^(.*)$ index.php?url=$1 [l]
+
+<ifmodule mod_headers.c>
+    header set access-control-allow-origin "*"
+    header set access-control-allow-methods "*"
+    header set access-control-allow-headers "*"
+</ifmodule>
