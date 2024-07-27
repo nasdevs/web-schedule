@@ -10,15 +10,16 @@
         class="h-screen flex flex-col justify-center items-center bg-gray-100"
     >
         <div class="-mt-20 mb-28 font-bold text-4xl">
-            WEBSITE KEGIATAN DOSEN
+            WEBSITE KEGIATAN pimpinan
         </div>
         <div
             class="w-[600px] h-[600px] flex justify-center items-center flex-col bg-white rounded-xl shadow-xl"
         >
             <div class="text-4xl font-bold">LOGIN</div>
-            <form action="">
+            <form action="<?= BASEURL?>/login" method="post">
                 <div class="mt-14">
                     <input
+                        name="username"
                         type="text"
                         placeholder="Username"
                         class="border border-slate-950 p-4 w-[400px] text-xl"
@@ -26,6 +27,7 @@
                 </div>
                 <div class="mt-5">
                     <input
+                        name="password"
                         type="password"
                         placeholder="password"
                         class="border border-slate-950 p-4 w-[400px] text-xl"

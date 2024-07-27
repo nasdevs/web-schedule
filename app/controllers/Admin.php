@@ -1,15 +1,14 @@
 <?php
-
 class Admin extends Controller {
-    public function index() {
-        $data['dosen'] = $this->model('Dosen_model')->getAllData();
-        $data['schedule'] = $this->model('Kegiatan_model')->getDataToday();
+    public function dekanat() {
+        $data['pimpinan'] = $this->model('pimpinan_model')->getDataByRole(1);
+        $data['schedule'] = $this->model('Kegiatan_model')->getDataTodayByRole(1);
 
         $this->view('admin/index', $data);
     }
 
-    public function cs($id_dosen) {
-        $this->model('Dosen_model')->changeStatus($id_dosen); 
+    public function cs($id_pimpinan) {
+        $this->model('Pimpinan_model')->changeStatus($id_pimpinan); 
         header('Location: ' . BASEURL . '/admin');
         exit;
     }
@@ -27,18 +26,18 @@ class Admin extends Controller {
     }
 
     public function resetKehadiran() {
-        $this->model('Dosen_model')->resetKehadiran();
+        $this->model('pimpinan_model')->resetKehadiran();
         header('Location: ' . BASEURL . '/admin');
         exit;
     }
 
-    public function getScheduleDosen() {
-        echo json_encode($this->model('Kegiatan_model')->getDataTodayByIdDosen($_POST['id']));
+    public function getSchedulepimpinan() {
+        echo json_encode($this->model('Kegiatan_model')->getDataTodayByIdpimpinan($_POST['id']));
     }
 
     public function add() {
         // Path lokal untuk menyimpan file yang diupload
-        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/web-schedule/public/assets/foto_dosen/";
+        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/web-schedule/public/assets/foto_pimpinan/";
         $target_file = $target_dir . basename($_FILES["path_foto"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -72,8 +71,8 @@ class Admin extends Controller {
         // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["path_foto"]["tmp_name"], $target_file)) {
-                $_POST['path_foto'] = "/foto_dosen/" . basename($_FILES["path_foto"]["name"]);
-                $this->model('Dosen_model')->add($_POST);
+                $_POST['path_foto'] = "/foto_pimpinan/" . basename($_FILES["path_foto"]["name"]);
+                $this->model('pimpinan_model')->add($_POST);
                 header('Location: ' . BASEURL . '/admin');
                 exit;
             } else {

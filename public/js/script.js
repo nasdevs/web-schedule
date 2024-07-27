@@ -1,14 +1,14 @@
 $(document).ready(function() {
     BASEURL = 'https://localhost/web-schedule/public';
 
-    function handleDosenChange(id_dosen) {
+    function handlepimpinanChange(id_pimpinan) {
         $.ajax({
-            url: BASEURL + '/admin/getscheduledosen',
-            data: { id: id_dosen },
+            url: BASEURL + '/admin/getschedulepimpinan',
+            data: { id: id_pimpinan },
             method: 'post',
             dataType: 'json',
             success: function (data) {
-                $('#id_dosen').val(id_dosen);
+                $('#id_pimpinan').val(id_pimpinan);
                 const tbody = $('#kegiatanTableBody');
                 tbody.empty();
 
@@ -20,6 +20,7 @@ $(document).ready(function() {
                         <td class="px-6 py-4 border-b border-gray-300 text-center">${index + 1}</td>
                         <td class="px-6 py-4 border-b border-gray-300 text-center">${row.kegiatan}</td>
                         <td class="px-6 py-4 border-b border-gray-300 text-center">${startTime} - ${endTime}</td>
+                        <td class="px-6 py-4 border-b border-gray-300 text-center">${row.lokasi}</td>
                         <td class="px-6 py-4 border-b border-gray-300 text-center">
                             <a href="#" onclick="confirmEdit(this)" id="${row.id_kegiatan}" class="inline-block px-4 py-2 text-black bg-green-400 hover:bg-green-500 rounded transition duration-300 ease-in-out">Ubah</a>
                             <a href="#" onclick="confirmDelete(this)" id="${row.id_kegiatan}" class="inline-block px-4 py-2 text-black bg-red-400 hover:bg-red-500 rounded transition duration-300 ease-in-out">Hapus</a>
@@ -32,11 +33,11 @@ $(document).ready(function() {
     }
 
 
-    $('#dosenDropdown').on('change', function() {
-        handleDosenChange($(this).val());
+    $('#pimpinanDropdown').on('change', function() {
+        handlepimpinanChange($(this).val());
     });
 
     $('#xyz').on('click', function() {
-        handleDosenChange($("#id_dosen").val());
+        handlepimpinanChange($("#id_pimpinan").val());
     });
 })

@@ -1,7 +1,7 @@
 <?php
 
-class Dosen_model {
-    private $table = 'dosen';
+class Pimpinan_model {
+    private $table = 'pimpinan';
     private $db;
 
     public function __construct() {
@@ -13,10 +13,17 @@ class Dosen_model {
         return $this->db->resultSet();
     }
 
-    public function changeStatus($id_dosen) {
-        $query = 'UPDATE ' . $this->table . ' SET kehadiran = IF(kehadiran = 0, 1, 0) WHERE id_dosen = :id_dosen';
+    public function getDataByRole($role) {
+        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE id_role = :id_role');
+        $this->db->bind('id_role', $role);
+
+        return $this->db->resultSet();
+    }
+
+    public function changeStatus($id_pimpinan) {
+        $query = 'UPDATE ' . $this->table . ' SET kehadiran = IF(kehadiran = 0, 1, 0) WHERE id_pimpinan = :id_pimpinan';
         $this->db->query($query);
-        $this->db->bind('id_dosen', $id_dosen);
+        $this->db->bind('id_pimpinan', $id_pimpinan);
         $this->db->execute();
 
         return $this->db->rowCount();

@@ -1,7 +1,7 @@
 <?php
 
 class App {
-    protected $controller = 'Schedule';
+    protected $controller = 'slide';
     protected $method = 'index';
     protected $params = [];
 
@@ -29,7 +29,6 @@ class App {
         // params
         if (!empty($url)) {
             $this->params = array_values($url);
-            // var_dump($url);
         }
 
         // jalankan controller & method, serta kirimkan params

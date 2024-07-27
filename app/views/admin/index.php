@@ -30,7 +30,7 @@
         <div class="flex flex-col md:flex-row justify-between mt-2">
             <div class="absensi w-full md:w-1/2 ms-2">
                 <div class="text-center text-2xl font-semibold">
-                    Kehadiran Dosen
+                    Kehadiran pimpinan
                 </div>
                 <div class="absen border border-black h-[740px] p-3 m-2 bg-white overflow-auto">
                     <form action="" class="mt-4">
@@ -46,15 +46,15 @@
                             <tbody class="border border-gray-300">
                                 <?php 
                                 $no = 1;
-                                foreach ($data['dosen'] as $dosen) :
+                                foreach ($data['pimpinan'] as $pimpinan) :
                                 ?>
                                 <tr>
                                     <td><?= $no ?></td>
-                                    <td><?= $dosen['nip'] ?></td>
-                                    <td><?= $dosen['nama'] ?></td>
+                                    <td><?= $pimpinan['nip'] ?></td>
+                                    <td><?= $pimpinan['nama'] ?></td>
                                     <td>
-                                        <a href="<?= BASEURL . '/Admin/cs/' . $dosen['id_dosen']?>" onclick="return confirmAttendance(event, this)" class="inline-block px-4 py-2 text-black <?= $dosen['kehadiran'] == 1 ? 'bg-green-400 hover:bg-green-500 w-32' : 'bg-red-400 hover:bg-red-500 w-32'?> font-bold rounded transition duration-300 ease-in-out">
-                                            <?= $dosen['kehadiran'] == 1 ? "Hadir" : "Tidak Hadir"?>
+                                        <a href="<?= BASEURL . '/Admin/cs/' . $pimpinan['id_pimpinan']?>" onclick="return confirmAttendance(event, this)" class="inline-block px-4 py-2 text-black <?= $pimpinan['kehadiran'] == 1 ? 'bg-green-400 hover:bg-green-500 w-32' : 'bg-red-400 hover:bg-red-500 w-32'?> font-bold rounded transition duration-300 ease-in-out">
+                                            <?= $pimpinan['kehadiran'] == 1 ? "Hadir" : "Tidak Hadir"?>
                                         </a>
                                     </td>
                                 </tr>
@@ -68,20 +68,19 @@
             </div>
             <div class="kegiatan w-full md:w-1/2 me-2 mt-10 md:mt-0">
                 <div class="text-center text-2xl font-semibold">
-                    Kegiatan Dosen
+                    Kegiatan pimpinan
                 </div>
-                <input type="hidden" name="id" id="id_dosen">
+                <input type="hidden" name="id" id="id_pimpinan">
 
                 <div class="border border-black p-3 m-2 h-[740px] bg-white overflow-auto">
                     <div class="block p-4 text-center">
-                        <select id="dosenDropdown" class="text-xl text-black p-2 rounded-md border border-black">
+                        <select id="pimpinanDropdown" class="text-xl text-black p-2 rounded-md border border-black">
                             <option value="" class="text-gray-400" disabled selected>
-                                Pilih Dosen Hadir
+                                Pilih pimpinan Hadir
                             </option>
-                            <?php foreach($data['dosen'] as $dosen) :
-                            if (!$dosen['kehadiran']) continue;
+                            <?php foreach($data['pimpinan'] as $pimpinan) :
                             ?>
-                            <option value="<?= $dosen['id_dosen']?>"><?= $dosen['nama']?></option>
+                            <option value="<?= $pimpinan['id_pimpinan']?>"><?= $pimpinan['nama']?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -98,6 +97,9 @@
                                         </th>
                                         <th class="px-6 py-3 border-b border-gray-300 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">
                                             Jam
+                                        </th>
+                                        <th class="px-6 py-3 border-b border-gray-300 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">
+                                            Lokasi
                                         </th>
                                         <th class="px-6 py-3 border-b border-gray-300 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">
                                             Aksi
@@ -119,9 +121,9 @@
             </div>
         </div>
 
-        <div class="dosen mb-36 flex flex-col justify-center items-center">
+        <div class="pimpinan mb-36 flex flex-col justify-center items-center">
             <div class="font-bold text-4xl p-10 mt-10 text-center">
-                Tambah Dosen
+                Tambah pimpinan
             </div>
             <div class="w-full md:w-[1200px] border border-black m-3 p-3 bg-white flex justify-center">
                 <form action="<?= BASEURL . '/admin/add' ?>" method="post" enctype="multipart/form-data">
@@ -168,10 +170,10 @@
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                text: `Atas nama "${nama}" <?= $dosen['kehadiran'] == 1 ? "Hadir" : "Tidak Hadir"?> dan berada di kampus saat ini?`,
+                text: `Atas nama "${nama}" <?= $pimpinan['kehadiran'] == 1 ? "Hadir" : "Tidak Hadir"?> dan berada di kampus saat ini?`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Ya, <?= $dosen['kehadiran'] == 1 ? "Hadir" : "Tidak Hadir"?>',
+                confirmButtonText: 'Ya, <?= $pimpinan['kehadiran'] == 1 ? "Hadir" : "Tidak Hadir"?>',
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -246,6 +248,9 @@
                     <input name="time_end" type="time" placeholder="End Time" class="p-2 border border-gray-300 rounded" />
                 </td>
                 <td class="px-6 py-4 border-b border-gray-300 text-center">
+                    <input name="lokasi" type="text" placeholder="Lokasi Kegiatan" class="p-2 border border-gray-300 rounded" />
+                </td>
+                <td class="px-6 py-4 border-b border-gray-300 text-center">
                     <button id="xyz" type="button" onclick="saveRow(this)" class="inline-block px-4 py-2 text-black bg-green-400 hover:bg-green-500 rounded transition duration-300 ease-in-out">Simpan</button>
                     <button type="button" onclick="cancelRow(this)" class="inline-block px-4 py-2 text-black bg-red-400 hover:bg-red-500 rounded transition duration-300 ease-in-out">Cancel</button>
                 </td>
@@ -255,9 +260,12 @@
 
         function saveRow(button) {
             const row = button.closest('tr');
-            const id_dosen = document.getElementById('id_dosen').value;
+            const id_pimpinan = document.getElementById('id_pimpinan').value;
             const namaKegiatan = row.querySelector(
                 'input[placeholder="Nama Kegiatan"]'
+            ).value;
+            const lokasi = row.querySelector(
+                'input[placeholder="Lokasi Kegiatan"]'
             ).value;
             const startTime = row.querySelector(
                 'input[placeholder="Start Time"]'
@@ -270,10 +278,11 @@
                 $.ajax({
                     url: BASEURL + '/admin/as',
                     data: {
-                        id_dosen: id_dosen,
+                        id_pimpinan: id_pimpinan,
                         kegiatan: namaKegiatan,
                         waktu_start: startTime,
-                        waktu_end: endTime
+                        waktu_end: endTime,
+                        lokasi: lokasi
                     },
                     method: 'post',
                     dataType: 'json',
@@ -285,6 +294,7 @@
                     <td class="px-6 py-4 border-b border-gray-300 text-center">-</td>
                     <td class="px-6 py-4 border-b border-gray-300 text-center">${namaKegiatan}</td>
                     <td class="px-6 py-4 border-b border-gray-300 text-center">${startTime} - ${endTime}</td>
+                    <td class="px-6 py-4 border-b border-gray-300 text-center">${lokasi}</td>
                     <td class="px-6 py-4 border-b border-gray-300 text-center">
                         <a href="#" onclick="confirmEdit(this)" class="inline-block px-4 py-2 text-black bg-green-400 hover:bg-green-500 rounded transition duration-300 ease-in-out">Ubah</a>
                         <a href="#" onclick="confirmDelete(this)" class="inline-block px-4 py-2 text-black bg-red-400 hover:bg-red-500 rounded transition duration-300 ease-in-out">Hapus</a>
