@@ -13,36 +13,39 @@ class Kegiatan_model {
         return $this->db->resultSet();
     }
 
-    public function getDataByIdDosen($id_dosen) {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE id_dosen = :id_dosen';
+    public function getDataByIdpimpinan($id_pimpinan) {
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE id_pimpinan = :id_pimpinan';
 
         $this->db->query($query);
-        $this->db->bind('id_dosen', $id_dosen);
+        $this->db->bind('id_pimpinan', $id_pimpinan);
 
         return $this->db->resultSet();
     }
 
-    public function getDataTodayByIdDosen($id_dosen) {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE id_dosen = :id_dosen AND DATE(created_at) = CURDATE()';
+    public function getDataTodayByIdpimpinan($id_pimpinan) {
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE id_pimpinan = :id_pimpinan AND DATE(created_at) = CURDATE()';
 
         $this->db->query($query);
-        $this->db->bind('id_dosen', $id_dosen);
+        $this->db->bind('id_pimpinan', $id_pimpinan);
 
         return $this->db->resultSet();
     }
 
-    public function getDataToday() {
-        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE DATE(created_at) = CURDATE()');
+    public function getDataTodayByRole($role) {
+        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE DATE(created_at) = CURDATE() AND id_role = :id_role');
+        $this->db->bind('id_role', $role);
         return $this->db->resultSet();
     }
 
     public function add($data) {
-        $query = 'INSERT INTO ' . $this->table . ' (id_dosen, kegiatan, waktu_start, waktu_end, created_at) 
-                  VALUES (:id_dosen, :kegiatan, :waktu_start, :waktu_end, NOW())';
+        $query = 'INSERT INTO ' . $this->table . ' (id_pimpinan, id_role, kegiatan, lokasi, waktu_start, waktu_end, created_at) 
+                  VALUES (:id_pimpinan, :id_role, :kegiatan, :lokasi, :waktu_start, :waktu_end, NOW())';
 
         $this->db->query($query);
-        $this->db->bind('id_dosen', $data['id_dosen']);
+        $this->db->bind('id_pimpinan', $data['id_pimpinan']);
+        $this->db->bind('id_role', $_SESSION['id_role']);
         $this->db->bind('kegiatan', $data['kegiatan']);
+        $this->db->bind('lokasi', $data['lokasi']);
         $this->db->bind('waktu_start', $data['waktu_start']);
         $this->db->bind('waktu_end', $data['waktu_end']);
 
@@ -59,11 +62,11 @@ class Kegiatan_model {
         return $this->db->execute();
     }
 
-    public function deleteByIdDosen($id_dosen) {
-        $query = 'DELETE FROM ' . $this->table . ' WHERE id_dosen = :id_dosen';
+    public function deleteByIdpimpinan($id_pimpinan) {
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id_pimpinan = :id_pimpinan';
 
         $this->db->query($query);
-        $this->db->bind('id_dosen', $id_dosen);
+        $this->db->bind('id_pimpinan', $id_pimpinan);
 
         return $this->db->execute();
     }
