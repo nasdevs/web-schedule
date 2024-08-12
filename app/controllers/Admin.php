@@ -1,5 +1,10 @@
 <?php
 class Admin extends Controller {
+    public function index() {
+        $this->checkLoginSession();
+
+        $this->view('admin/' . $_SESSION['role_name']);
+    }
     public function dekanat() {
         $data['pimpinan'] = $this->model('pimpinan_model')->getDataByRole(1);
         $data['schedule'] = $this->model('Kegiatan_model')->getDataTodayByRole(1);
@@ -9,7 +14,7 @@ class Admin extends Controller {
 
     public function cs($id_pimpinan) {
         $this->model('Pimpinan_model')->changeStatus($id_pimpinan); 
-        header('Location: ' . BASEURL . '/admin');
+        header('Location: ' . BASEURL . '/admin/' . $_SESSION['role_name']);
         exit;
     }
     
@@ -27,7 +32,7 @@ class Admin extends Controller {
 
     public function resetKehadiran() {
         $this->model('pimpinan_model')->resetKehadiran();
-        header('Location: ' . BASEURL . '/admin');
+        header('Location: ' . BASEURL . '/admin/' . $_SESSION['role_name']);
         exit;
     }
 
@@ -71,9 +76,9 @@ class Admin extends Controller {
         // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["path_foto"]["tmp_name"], $target_file)) {
-                $_POST['path_foto'] = "/foto_pimpinan/" . basename($_FILES["path_foto"]["name"]);
+                $_POST['path_foto'] = basename($_FILES["path_foto"]["name"]);
                 $this->model('pimpinan_model')->add($_POST);
-                header('Location: ' . BASEURL . '/admin');
+                header('Location: ' . BASEURL . '/admin/' . $_SESSION['role_name']);
                 exit;
             } else {
                 echo "Sorry, there was an error uploading your file.";

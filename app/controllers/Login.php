@@ -2,7 +2,8 @@
 
 class Login extends Controller {
     public function index() {
-        
+        // $this->checkLoginSession();
+
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -19,6 +20,7 @@ class Login extends Controller {
                     $_SESSION['id_role'] = $result['id_role'];
 
                     $role_name = $this->model('Role_model')->getDataById($result['id_role'])['nama'];
+                    $_SESSION['role_name'] = strtolower($role_name);
                     header('Location: ' . BASEURL . '/admin/' . strtolower($role_name));
 
                     exit;

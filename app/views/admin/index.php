@@ -17,7 +17,11 @@
 <body class="bg-gray-100">
     <div>
         <div class="flex justify-between items-center flex-wrap">
-            <div class=""></div>
+            <div class="">
+                <a id="resetButton" href="<?= BASEURL?>/admin/resetKehadiran" onclick="return confirmReset(event, this)" class="border border-black p-3 bg-white hover:bg-red-500 hover:font-bold transition duration-300 ease-in-out cursor-pointer">
+                    Reset
+                </a>
+            </div>
             <div class="text-4xl md:text-6xl font-bold text-center">
                 Dashboard
             </div>
@@ -174,6 +178,25 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, <?= $pimpinan['kehadiran'] == 1 ? "Hadir" : "Tidak Hadir"?>',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = button.href;
+                }
+            });
+
+            return false;
+        }
+
+        function confirmReset(event, button) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: `Melakukan reset kehadiran akan menjadikan semua status menjadi 'Tidak Hadir'`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
